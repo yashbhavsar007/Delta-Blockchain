@@ -2,7 +2,6 @@
 
 Delta is a Delegated Proof of Stake blockchain that uses a "Proof of Brain" social consensus algorithm for token allocation.
 
-  - Currency symbol DELTA.
   - 10% APR inflation narrowing to 1% APR over 20 years.
   - 75% of inflation to "Proof of Brain" social consensus algorithm.
   - 15% of inflation to stake holders.
@@ -63,26 +62,6 @@ There are quite a few environment variables that can be set to run deltad in dif
 * `USE_MULTICORE_READONLY` - if set to true, this will enable deltad in multiple reader mode to take advantage of multiple cores (if available). Read requests are handled by the read-only nodes, and write requests are forwarded back to the single 'writer' node automatically. NGINX load balances all requests to the reader nodes, 4 per available core. This setting is still considered experimental and may have trouble with some API calls until further development is completed.
 * `HOME` - set this to the path where you want deltad to store it's data files (block log, shared memory, config file, etc). By default `/var/lib/deltad` is used and exists inside the docker container. If you want to use a different mountpoint (like a ramdisk, or a different drive) then you may want to set this variable to map the volume to your docker container.
 
-# PaaS mode
-
-Deltad now supports a PaaS mode (platform as a service) that currently works with Amazon's Elastic Beanstalk service. It can be launched using the following environment variables:
-
-* `USE_PAAS` - if set to true, deltad will launch in a format that works with AWS EB. Containers will exit upon failure so that they can be relaunched automatically by ECS. This mode assumes `USE_WAY_TOO_MUCH_RAM` and `USE_FULL_WEB_NODE`, they do not need to be also set.
-* `S3_BUCKET` - set this to the name of the S3 bucket where you will store shared memory files for deltad in Amazon S3. They will be stored compressed in bz2 format with the file name `blockchain-$VERSION-latest.tar.bz2`, where $VERSION is the release number followed by the git short commit hash stored in each docker image at `/etc/deltadversion`.
-* `SYNC_TO_S3` - if set to true, the node will function to only generate shared memory files and upload them to the specified S3 bucket. This makes fast deployments and autoscaling for deltad possible.
-
-# Config File
-
-Run `deltad` once to generate a data directory and config file. The default location is `witness_node_data_dir`. Kill `deltad`. It won't do anything without seed nodes. If you want to modify the config to your liking, we have two example configs used in the docker images. ( [consensus node](contrib/config-for-docker.ini), [full node](contrib/fullnode.config.ini) ) All options will be present in the default config file and there may be more options needing to be changed from the docker configs (some of the options actually used in images are configured via command line).
-
-# Seed Nodes
-
-A list of some seed nodes to get you started can be found in
-[doc/seednodes.txt](doc/seednodes.txt).
-
-This same file is baked into the docker images and can be overridden by
-setting `DELTAD_SEED_NODES` in the container environment at `docker run`
-time to a whitespace delimited list of seed nodes (with port).
 
 # CLI Wallet
 
@@ -93,20 +72,4 @@ We provide a basic cli wallet for interfacing with `deltad`. The wallet is self 
 See [doc/building.md](doc/building.md) for detailed build instructions, including
 compile-time options, and specific commands for Linux (Ubuntu LTS) or macOS.
 
-# Testing
 
-See [doc/testing.md](doc/testing.md) for test build targets and info
-on how to use lcov to check code test coverage.
-
-# System Requirements
-
-For a full web node, you need at least 110GB of disk space available. Deltad uses a memory mapped file which currently holds 56GB of data and by default is set to use up to 80GB. The block log of the blockchain itself is a little over 27GB. It's highly recommended to run deltad on a fast disk such as an SSD or by placing the shared memory files in a ramdisk and using the `--shared-file-dir=/path` command line option to specify where. At least 16GB of memory is required for a full web node. Seed nodes (p2p mode) can run with as little as 4GB of memory with a 24 GB state file. Any CPU with decent single core performance should be sufficient. Deltad is constantly growing. As of August 2017, these numbers were accurate, but you may find you need more disk space to run a full node. We are also constantly working on optimizing Delta's use of disk space.
-
-On Linux use the following Virtual Memory configuration for the initial sync and subsequent replays. It is not needed for normal operation.
-
-```
-echo    75 | sudo tee /proc/sys/vm/dirty_background_ratio
-echo  1000 | sudo tee /proc/sys/vm/dirty_expire_centisecs
-echo    80 | sudo tee /proc/sys/vm/dirty_ratio
-echo 30000 | sudo tee /proc/sys/vm/dirty_writeback_centisecs
-```
