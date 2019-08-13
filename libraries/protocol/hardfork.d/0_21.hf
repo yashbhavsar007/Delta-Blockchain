@@ -1,0 +1,9 @@
+#ifndef DELTA_HARDFORK_0_21
+#define DELTA_HARDFORK_0_21 21
+#define DELTA_SMT_HARDFORK DELTA_HARDFORK_0_21
+
+#define DELTA_HARDFORK_0_21_TIME 1597970800 // Future 2020...
+
+#define DELTA_HARDFORK_0_21_VERSION hardfork_version( 0, 21 )
+
+#endif

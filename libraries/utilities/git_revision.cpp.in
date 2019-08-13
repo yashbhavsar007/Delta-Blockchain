@@ -1,0 +1,14 @@
+#include <stdint.h>
+#include <delta/utilities/git_revision.hpp>
+
+#define DELTA_GIT_REVISION_SHA "@DELTA_GIT_REVISION_SHA@"
+#define DELTA_GIT_REVISION_UNIX_TIMESTAMP @DELTA_GIT_REVISION_UNIX_TIMESTAMP@
+#define DELTA_GIT_REVISION_DESCRIPTION "@DELTA_GIT_REVISION_DESCRIPTION@"
+
+namespace delta { namespace utilities {
+
+const char* const git_revision_sha = DELTA_GIT_REVISION_SHA;
+const uint32_t git_revision_unix_timestamp = DELTA_GIT_REVISION_UNIX_TIMESTAMP;
+const char* const git_revision_description = DELTA_GIT_REVISION_DESCRIPTION;
+
+} } // end namespace delta::utilities
