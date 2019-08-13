@@ -29,7 +29,7 @@ Just want to get up and running quickly? We have pre-built docker images for you
 
 We strongly recommend using one of our pre-built Docker images or using Docker to build Delta. Both of these processes are described in the [quickstart guide](doc/exchangequickstart.md).
 
-If you would still like to build from source, we do have [build instructions](https://gitlab.com/yash007/delta_block/blob/stable/doc/building.md) for Linux (Ubuntu LTS) and macOS.
+If you would still like to build from source, we do have [build instructions](https://github.com/yashbhavsar007/Delta-Blockchain/blob/master/doc/building.md) for Linux (Ubuntu LTS) and macOS.
 
 ## Dockerized p2p Node
 
